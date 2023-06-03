@@ -47,7 +47,6 @@ def excepthook(
 
 def main():
     LOGGER.debug(s.Path.ROOT)
-    raise ValueError('test')
 
 # ----------------------------------------------------
 
