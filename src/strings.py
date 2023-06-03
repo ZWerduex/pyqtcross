@@ -6,7 +6,7 @@ __all__ = ['Path', 'Strings']
 
 class Strings():
 
-    APPLICATION_NAME = 'Pygramme'
+    APPLICATION_NAME = 'PyQtCross'
 
 
 class Path():
