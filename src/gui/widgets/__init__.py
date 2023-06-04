@@ -1,1 +1,1 @@
-from .Cell import *
+from .PicrossWidget import *

@@ -3,37 +3,29 @@ from PyQt6.QtCore import Qt
 import PyQt6.QtGui as gui
 import PyQt6.QtWidgets as wid
 
+
 __all__ = ['Cell']
 
 
 class Cell(wid.QGraphicsView):
 
-    def __init__(self, colored: bool) -> None:
+    def __init__(self) -> None:
         wid.QGraphicsView.__init__(self)
 
         self.__scene = wid.QGraphicsScene()
-        self.__state = -1
-
-        if colored:
-            color = 'cecece'
-        else:
-            color = 'FFFFFF'
-
         self.setScene(self.__scene)
-        self.setStyleSheet(f'background-color: #{color}; border: 1px solid #171b25;')
+
         self.setMinimumSize(50, 50)
         
-    def fill(self) -> None:
-        self.clear()
-        w, h = self.width(), self.height()
-        offset = 5
-        self.__scene.addRect(
-            0, 0, w - offset, h - offset,
-            brush = gui.QBrush(gui.QColor(23, 27, 37), Qt.BrushStyle.SolidPattern)
-        )
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setRenderHint(gui.QPainter.RenderHint.Antialiasing)
 
-    def empty(self) -> None:
-        self.clear()
+    @property
+    def scene(self) -> wid.QGraphicsScene:
+        return self.__scene
+
+    def crossout(self) -> None:
         w, h = self.width(), self.height()
         offset = 15
         self.__scene.addLine(
@@ -48,19 +40,3 @@ class Cell(wid.QGraphicsView):
     def clear(self) -> None:
         for item in self.__scene.items():
             self.__scene.removeItem(item)
-
-    def mousePressEvent(self, event: gui.QMouseEvent) -> None:
-        if event.button() == Qt.MouseButton.LeftButton:
-            if self.__state == 1:
-                self.__state = -1
-                self.clear()
-            else:
-                self.__state = 1
-                self.fill()
-        elif event.button() == Qt.MouseButton.RightButton:
-            if self.__state == 0:
-                self.__state = -1
-                self.clear()
-            else:
-                self.__state = 0
-                self.empty()

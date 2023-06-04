@@ -28,7 +28,7 @@ class MainWindow(wid.QMainWindow):
             [1, 1, 0, 1, 1, 1, 1]
         ]))
 
-        group = False
+        group = True
         for i in range(picross.width):
             if i % 5 == 0:
                 group = not group
