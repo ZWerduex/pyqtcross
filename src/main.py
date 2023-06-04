@@ -46,7 +46,14 @@ def excepthook(
 # ----------------------------------------------------
 
 def main():
-    LOGGER.debug(s.Path.ROOT)
+    import picross as p
+    model = p.PicrossModel.fromGrid('test', [
+        [0, 0, 0, 0, 1],
+        [0, 1, 0, 1, 1],
+        [1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0]
+    ])
+    picross = p.Picross(model)
 
 # ----------------------------------------------------
 
