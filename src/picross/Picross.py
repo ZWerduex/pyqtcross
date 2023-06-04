@@ -23,11 +23,11 @@ class Picross():
         return self.__modelResp.height
     
     @property
-    def rowHints(self) -> list:
+    def rowHints(self) -> list[list[int]]:
         return self.__rowHints
     
     @property
-    def colHints(self) -> list:
+    def colHints(self) -> list[list[int]]:
         return self.__colHints
     
     @property

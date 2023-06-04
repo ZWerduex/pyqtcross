@@ -13,7 +13,7 @@ class HintCell(Cell):
     def __init__(self, hint: str) -> None:
         Cell.__init__(self)
         self.__isEmpty = hint == ''
-        self.__text = self.__scene.addText(
+        self.__text = self.scene.addText(
             hint,
             gui.QFont('Arial', 10, 1)
         )
@@ -29,6 +29,6 @@ class HintCell(Cell):
             super().crossout()
 
     def clear(self) -> None:
-        for item in self.__scene.items():
+        for item in self.scene.items():
             if item != self.__text:
-                self.__scene.removeItem(item)
+                self.scene.removeItem(item)

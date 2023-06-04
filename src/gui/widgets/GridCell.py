@@ -27,7 +27,7 @@ class GridCell(Cell):
         self.clear()
         w, h = self.width(), self.height()
         offset = 5
-        self.__scene.addRect(
+        self.scene.addRect(
             0, 0, w - offset, h - offset,
             brush = gui.QBrush(gui.QColor(23, 27, 37), Qt.BrushStyle.SolidPattern)
         )

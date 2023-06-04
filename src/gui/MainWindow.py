@@ -14,8 +14,7 @@ class MainWindow(wid.QMainWindow):
         self.setWindowTitle(windowTitle)
         
         # Layout
-        self.__layout = wid.QGridLayout()
-        self.__layout.setSpacing(0)
+        self.__layout = wid.QVBoxLayout()
 
         # Widgets
         picross = p.Picross(p.PicrossModel.fromGrid('test', [
@@ -25,19 +24,15 @@ class MainWindow(wid.QMainWindow):
             [1, 1, 0, 1, 1, 1, 1],
             [0, 1, 1, 1, 0, 0, 1],
             [0, 1, 0, 1, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 1]
+            [1, 1, 0, 1, 1, 1, 1],
+            [0, 1, 1, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 0, 1, 1, 1],
         ]))
 
-        group = True
-        for i in range(picross.width):
-            if i % 5 == 0:
-                group = not group
-            for j in range(picross.height):
-                if j % 5 == 0:
-                    group = not group
-                cell = w.Cell(group)
-                cell.setFixedSize(50, 50)
-                self.__layout.addWidget(cell, i, j)
+        self.__picrossWidget = w.PicrossWidget(picross)
+        self.__layout.addWidget(self.__picrossWidget)
 
         central = wid.QWidget()
         central.setLayout(self.__layout)
