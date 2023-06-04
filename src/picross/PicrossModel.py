@@ -13,7 +13,7 @@ __all__ = ['PicrossModel']
 class PicrossModel():
 
     @staticmethod
-    def fromGrid(name: str, grid: list) -> PicrossModel:
+    def fromGrid(name: str, grid: list[list[int]]) -> PicrossModel:
         for row in grid:
             if len(row) != len(grid[0]):
                 raise ValueError('Grid must be a rectangle')

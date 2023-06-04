@@ -14,6 +14,30 @@ class Picross():
         self.__rowHints = self.__computeHints(model.grid.tolist())
         self.__colHints = self.__computeHints(model.grid.T.tolist())
 
+    @property
+    def width(self) -> int:
+        return self.__modelResp.width
+    
+    @property
+    def height(self) -> int:
+        return self.__modelResp.height
+    
+    @property
+    def rowHints(self) -> list:
+        return self.__rowHints
+    
+    @property
+    def colHints(self) -> list:
+        return self.__colHints
+    
+    @property
+    def userGrid(self) -> np.ndarray:
+        return self.__userModel.grid
+    
+    @property
+    def respGrid(self) -> np.ndarray:
+        return self.__modelResp.grid
+
     def __computeHints(self, grid: np.ndarray) -> list:
         # Compute hints for each row
         hints = []

@@ -12,8 +12,8 @@ except ImportError:
 
 import sys, traceback, types, typing
 
-"""import PyQt6.QtWidgets as wid
-app = wid.QApplication(sys.argv)"""
+import PyQt6.QtWidgets as wid
+app = wid.QApplication(sys.argv)
 
 import strings as s
 
@@ -41,19 +41,15 @@ def excepthook(
     tb = ''.join(traceback.format_exception(exception, value, tback))
     LOGGER.error('An unhandled exception occured\n%s', tb)
     LOGGER.info('Exiting %s', s.Strings.APPLICATION_NAME)
-    #wid.QApplication.exit(1)
+    wid.QApplication.exit(1) # type: ignore
 
 # ----------------------------------------------------
 
 def main():
-    import picross as p
-    model = p.PicrossModel.fromGrid('test', [
-        [0, 0, 0, 0, 1],
-        [0, 1, 0, 1, 1],
-        [1, 0, 1, 0, 1],
-        [1, 0, 0, 0, 0]
-    ])
-    picross = p.Picross(model)
+    import gui as g
+    window = g.MainWindow(s.Strings.APPLICATION_NAME)
+    window.show()
+    sys.exit(app.exec())
 
 # ----------------------------------------------------
 
