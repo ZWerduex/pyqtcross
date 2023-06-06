@@ -31,7 +31,7 @@ class MainWindow(wid.QMainWindow):
             [1, 1, 1, 0, 1, 1, 1],
         ]))
 
-        self.__picrossWidget = w.PicrossWidget(picross)
+        self.__picrossWidget = w.PicrossWidget(25, picross)
         self.__layout.addWidget(self.__picrossWidget)
 
         central = wid.QWidget()

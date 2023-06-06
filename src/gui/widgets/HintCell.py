@@ -10,25 +10,16 @@ __all__ = ['HintCell']
 
 class HintCell(Cell):
 
-    def __init__(self, hint: str) -> None:
-        Cell.__init__(self)
-        self.__isEmpty = hint == ''
-        self.__text = self.scene.addText(
-            hint,
-            gui.QFont('Arial', 10, 1)
-        )
+    def __init__(self, size: int, hint: str) -> None:
+        Cell.__init__(self, size)
 
-        self.setStyleSheet('background-color: #ddb07a;')
+        self.__crossed = False
 
-        self.setFrameShape(wid.QFrame.Shape.NoFrame)
-        self.setRenderHint(gui.QPainter.RenderHint.TextAntialiasing)
+        self.__text = self.drawText(hint, 23, 27, 37)
+        self.setBackgroundHex('e0c48d')
 
-    def crossout(self) -> None:
-        if not self.__isEmpty:
-            self.clear()
-            super().crossout()
-
-    def clear(self) -> None:
-        for item in self.scene.items():
-            if item != self.__text:
-                self.scene.removeItem(item)
+    def mouseReleaseEvent(self, event: gui.QMouseEvent) -> None:
+        self.clear([self.__text])
+        if not self.__crossed:
+            self.drawCross(23, 27, 37, 140)
+        self.__crossed = not self.__crossed

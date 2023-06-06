@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 
 from .PicrossModel import PicrossModel
@@ -24,11 +25,11 @@ class Picross():
     
     @property
     def rowHints(self) -> list[list[int]]:
-        return self.__rowHints
+        return copy.deepcopy(self.__rowHints)
     
     @property
     def colHints(self) -> list[list[int]]:
-        return self.__colHints
+        return copy.deepcopy(self.__colHints)
     
     @property
     def userGrid(self) -> np.ndarray:

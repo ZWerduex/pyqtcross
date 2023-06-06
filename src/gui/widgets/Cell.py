@@ -1,4 +1,6 @@
 
+import math
+
 from PyQt6.QtCore import Qt
 import PyQt6.QtGui as gui
 import PyQt6.QtWidgets as wid
@@ -9,34 +11,79 @@ __all__ = ['Cell']
 
 class Cell(wid.QGraphicsView):
 
-    def __init__(self) -> None:
+    def __init__(self, size: int) -> None:
         wid.QGraphicsView.__init__(self)
 
-        self.__scene = wid.QGraphicsScene()
-        self.setScene(self.__scene)
-
-        self.setMinimumSize(50, 50)
+        self.cellSize = size
+        self.__crossOffset = math.ceil(self.cellSize * 0.25)
+        self.__fillOffset = math.ceil(self.cellSize * 0.1)
         
+        # QGraphicsView properties
+        self.setFixedSize(self.cellSize, self.cellSize)
+        
+        self.setFrameShape(wid.QFrame.Shape.NoFrame)
+
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        
         self.setRenderHint(gui.QPainter.RenderHint.Antialiasing)
+        self.setRenderHint(gui.QPainter.RenderHint.TextAntialiasing)
 
-    @property
-    def scene(self) -> wid.QGraphicsScene:
-        return self.__scene
-
-    def crossout(self) -> None:
+        # QGraphicsScene properties
+        self.__scene = wid.QGraphicsScene()
+        self.setScene(self.__scene)
+        self.__scene.setSceneRect(0, 0, self.cellSize, self.cellSize)
+    
+    def setBackgroundRGB(self, r: int, g: int, b: int) -> None:
+        self.setStyleSheet(f'background-color: rgb({r}, {g}, {b});')
+    
+    def setBackgroundHex(self, hex: str) -> None:
+        self.setStyleSheet(f'background-color: #{hex};')
+    
+    def drawBorder(self, r: int, g: int, b: int, alpha: int = 255) -> wid.QGraphicsRectItem:
         w, h = self.width(), self.height()
-        offset = 15
-        self.__scene.addLine(
-            0, 0, w - offset, h - offset,
-            pen = gui.QPen(gui.QColor(23, 27, 37), 2, Qt.PenStyle.SolidLine)
+        return self.__scene.addRect(
+            0, 0, w, h,
+            pen = gui.QPen(gui.QColor(r, g, b, alpha), 0.5, Qt.PenStyle.SolidLine)
         )
-        self.__scene.addLine(
-            0, h - offset, w - offset, 0,
-            pen = gui.QPen(gui.QColor(23, 27, 37), 2, Qt.PenStyle.SolidLine)
+    
+    def drawCross(self, r: int, g: int, b: int, alpha: int = 255) -> tuple[wid.QGraphicsLineItem, wid.QGraphicsLineItem]:
+        w, h = self.width(), self.height()
+        return (
+            self.__scene.addLine(
+                self.__crossOffset, self.__crossOffset,
+                w - self.__crossOffset, h - self.__crossOffset,
+                pen = gui.QPen(gui.QColor(r, g, b, alpha), 1.5, Qt.PenStyle.SolidLine)
+            ), 
+            self.__scene.addLine(
+                self.__crossOffset, h - self.__crossOffset,
+                w - self.__crossOffset, self.__crossOffset,
+                pen = gui.QPen(gui.QColor(r, g, b, alpha), 1.5, Qt.PenStyle.SolidLine)
+            )
         )
 
-    def clear(self) -> None:
+    def drawRectangle(self, r: int, g: int, b: int, alpha: int = 255) -> wid.QGraphicsRectItem:
+        w, h = self.width(), self.height()
+        return self.__scene.addRect(
+            self.__fillOffset, self.__fillOffset,
+            w - 2 * self.__fillOffset, h - 2 * self.__fillOffset,
+            brush = gui.QBrush(gui.QColor(r, g, b, alpha), Qt.BrushStyle.SolidPattern)
+        )
+    
+    def drawText(self, text: str, r: int, g: int, b: int) -> wid.QGraphicsTextItem:
+        font = gui.QFont()
+        font.setFamily('Segoe UI')
+        font.setPixelSize(12)
+
+        item = self.__scene.addText(text, font)
+        item.setPos(
+            (self.width() - item.boundingRect().width()) / 2,
+            (self.height() - item.boundingRect().height()) / 2
+        )
+        item.setDefaultTextColor(gui.QColor(r, g, b))
+        return item
+    
+    def clear(self, itemsToKeep: list[wid.QGraphicsItem] = ...) -> None:
         for item in self.__scene.items():
-            self.__scene.removeItem(item)
+            if item not in itemsToKeep:
+                self.__scene.removeItem(item)
