@@ -9,19 +9,16 @@ from .GridCell import GridCell
 __all__ = ['PicrossWidget']
 
 
-class PicrossWidget(wid.QGraphicsView):
+class PicrossWidget(wid.QWidget):
 
     def __init__(self, picross: p.Picross) -> None:
         wid.QWidget.__init__(self)
         self.__picross = picross
-        
-        self.__scene = wid.QGraphicsScene()
-        self.setScene(self.__scene)
+        self.__layout = wid.QGridLayout()
+        self.__layout.setSpacing(0)
 
         maxLenRowHints = max([len(hints) for hints in picross.rowHints])
         maxLenColHints = max([len(hints) for hints in picross.colHints])
-
-        """
 
         # Row hints
         for row, hints in enumerate(picross.rowHints):
@@ -56,5 +53,3 @@ class PicrossWidget(wid.QGraphicsView):
                 self.__layout.addWidget(cell, i + maxLenColHints, j + maxLenRowHints)
 
         self.setLayout(self.__layout)
-
-        """

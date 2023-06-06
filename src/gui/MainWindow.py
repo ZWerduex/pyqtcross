@@ -33,11 +33,6 @@ class MainWindow(wid.QMainWindow):
 
         self.__picrossWidget = w.PicrossWidget(picross)
         self.__layout.addWidget(self.__picrossWidget)
-        hl = wid.QHBoxLayout()
-        hl.addStretch()
-        self.__layout.addLayout(hl)
-        self.__layout.addStretch()
-
 
         central = wid.QWidget()
         central.setLayout(self.__layout)
