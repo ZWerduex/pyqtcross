@@ -18,12 +18,12 @@ class PicrossModel():
             if len(row) != len(grid[0]):
                 raise ValueError('Grid must be a rectangle')
         p = PicrossModel(name, len(grid[0]), len(grid))
-        p.__grid = numpy.array(grid, dtype=numpy.uint8)
+        p.__grid = numpy.array(grid)
         return p
 
     def __init__(self, name: str, width: int, height: int) -> None:
         self.__name = name
-        self.__grid: numpy.ndarray = numpy.full((height, width), -1, dtype=numpy.uint8)
+        self.__grid: numpy.ndarray = numpy.full((height, width), -1)
 
     # Properties
 
@@ -49,13 +49,13 @@ class PicrossModel():
         return PicrossModel(self.name, self.width, self.height)
     
     def fillCell(self, x: int, y: int) -> None:
-        self.__grid[x][y] = 1
+        self.__grid[y][x] = 1
 
     def emptyCell(self, x: int, y: int) -> None:
-        self.__grid[x][y] = 0
+        self.__grid[y][x] = 0
 
     def clearCell(self, x: int, y: int) -> None:
-        self.__grid[x][y] = -1
+        self.__grid[y][x] = -1
 
     def clear(self) -> None:
         self.__grid.fill(-1)

@@ -14,7 +14,7 @@ class MainWindow(wid.QMainWindow):
         self.setWindowTitle(windowTitle)
         
         # Layout
-        self.__layout = wid.QVBoxLayout()
+        self.__layout = wid.QHBoxLayout()
 
         # Widgets
         picross = p.Picross(p.PicrossModel.fromGrid('test', [

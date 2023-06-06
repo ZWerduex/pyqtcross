@@ -16,6 +16,8 @@ class PicrossWidget(wid.QWidget):
         self.__picross = picross
         self.__layout = wid.QGridLayout()
         self.__layout.setSpacing(0)
+        self.__layout.setContentsMargins(0, 0, 0, 0)
+        self.__layout.setSizeConstraint(wid.QLayout.SizeConstraint.SetFixedSize)
 
         maxLenRowHints = max([len(hints) for hints in picross.rowHints])
         maxLenColHints = max([len(hints) for hints in picross.colHints])
@@ -39,14 +41,23 @@ class PicrossWidget(wid.QWidget):
                 self.__layout.addWidget(cell, i, maxLenRowHints + col)
 
         # Grid cells
-        group = True
-        for i in range(picross.height):
-            if i % 5 == 0:
-                group = not group
-            for j in range(picross.width):
-                if j % 5 == 0:
-                    group = not group
-                cell = GridCell(cellSize, group)
-                self.__layout.addWidget(cell, i + maxLenColHints, j + maxLenRowHints)
+        greyCell = True
+        for y in range(picross.height):
+            if y % 5 == 0:
+                greyCell = not greyCell
+            for x in range(picross.width):
+                if x % 5 == 0:
+                    greyCell = not greyCell
+                cell = GridCell(cellSize, x, y, greyCell)
+                cell.clicked.connect(self.onGridCellClicked)
+                self.__layout.addWidget(cell, y + maxLenColHints, x + maxLenRowHints)
 
         self.setLayout(self.__layout)
+
+    def onGridCellClicked(self, x: int, y: int, state: int) -> None:
+        if state == 1:
+            self.__picross.fillCell(x, y)
+        elif state == 0:
+            self.__picross.emptyCell(x, y)
+        else:
+            self.__picross.clearCell(x, y)
