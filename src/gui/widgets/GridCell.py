@@ -23,7 +23,7 @@ class GridCell(Cell):
         self.__state = -1
         self.__border = self.drawBorder(23, 27, 37)
 
-        self.setBackgroundHex('cecece' if colored else 'FFFFFF')
+        self.setBackgroundHex('dddddd' if colored else 'FFFFFF')
 
     def mouseReleaseEvent(self, event: gui.QMouseEvent) -> None:
         self.clear(itemsToKeep=[self.__border])

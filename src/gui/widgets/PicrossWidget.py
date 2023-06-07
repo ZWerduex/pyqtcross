@@ -21,6 +21,7 @@ class PicrossWidget(wid.QWidget):
         self.__layout.setSpacing(0)
         self.__layout.setContentsMargins(0, 0, 0, 0)
         self.__layout.setSizeConstraint(wid.QLayout.SizeConstraint.SetFixedSize)
+        self.__strictCheck = False
 
         maxLenRowHints = max([len(hints) for hints in picross.rowHints])
         maxLenColHints = max([len(hints) for hints in picross.colHints])
@@ -44,18 +45,18 @@ class PicrossWidget(wid.QWidget):
                 self.__layout.addWidget(cell, i, maxLenRowHints + col)
 
         # Grid cells
-        greyCell = True
+        whiteCell = False
         for y in range(picross.height):
-            if y % 5 == 0:
-                greyCell = not greyCell
             for x in range(picross.width):
-                if x % 5 == 0:
-                    greyCell = not greyCell
-                cell = GridCell(cellSize, x, y, greyCell)
+                whiteCell = (x // 5) % 2 != (y // 5) % 2 # Thanks ChatGPT, I was stuck on this for 2 hours
+                cell = GridCell(cellSize, x, y, whiteCell)
                 cell.clicked.connect(self.onGridCellClicked)
                 self.__layout.addWidget(cell, y + maxLenColHints, x + maxLenRowHints)
 
         self.setLayout(self.__layout)
+
+    def setStrictCheck(self, strictCheck: bool) -> None:
+        self.__strictCheck = strictCheck
 
     def onGridCellClicked(self, x: int, y: int, state: int) -> None:
         if state == 1:
@@ -65,5 +66,5 @@ class PicrossWidget(wid.QWidget):
         else:
             self.__picross.clearCell(x, y)
             
-        if self.__picross.isCompleted():
+        if self.__picross.isCompleted(self.__strictCheck):
             self.completed.emit()
