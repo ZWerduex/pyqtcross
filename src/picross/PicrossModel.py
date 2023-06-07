@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from . import PicrossModel
 
 import numpy
+import copy
 
 
 __all__ = ['PicrossModel']
@@ -67,11 +68,12 @@ class PicrossModel():
                 raise ValueError('Grid must be fully filled')
             
         if self.name != reference.name:
-            raise ValueError('PicrossModel must have the same name')
+            raise ValueError('Models must share the same name')
         if self.width != reference.width or self.height != reference.height:
             raise ValueError('Grids must have the same size')
         
-        norm = self.__grid.copy()
+        norm = copy.deepcopy(self.__grid)
         if not strictCheck:
             norm[norm == -1] = 0
+        print(self.__grid)
         return numpy.array_equal(norm, reference.grid)

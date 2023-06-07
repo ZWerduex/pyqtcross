@@ -1,4 +1,5 @@
 
+import PyQt6.QtCore as core
 import PyQt6.QtWidgets as wid
 
 import picross as p
@@ -10,6 +11,8 @@ __all__ = ['PicrossWidget']
 
 
 class PicrossWidget(wid.QWidget):
+
+    completed = core.pyqtSignal()
 
     def __init__(self, cellSize: int, picross: p.Picross) -> None:
         wid.QWidget.__init__(self)
@@ -61,3 +64,6 @@ class PicrossWidget(wid.QWidget):
             self.__picross.emptyCell(x, y)
         else:
             self.__picross.clearCell(x, y)
+            
+        if self.__picross.isCompleted():
+            self.completed.emit()

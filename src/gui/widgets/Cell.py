@@ -16,7 +16,7 @@ class Cell(wid.QGraphicsView):
 
         self.cellSize = size
         self.__crossOffset = math.ceil(self.cellSize * 0.25)
-        self.__fillOffset = math.ceil(self.cellSize * 0.1)
+        self.__fillOffset = math.ceil(self.cellSize * 0.07)
         
         # QGraphicsView properties
         self.setFixedSize(self.cellSize, self.cellSize)

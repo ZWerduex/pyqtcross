@@ -14,26 +14,29 @@ class MainWindow(wid.QMainWindow):
         self.setWindowTitle(windowTitle)
         
         # Layout
-        self.__layout = wid.QHBoxLayout()
+        self.__layout = wid.QVBoxLayout()
 
         # Widgets
-        picross = p.Picross(p.PicrossModel.fromGrid('test', [
-            [1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 0, 0],
-            [1, 1, 0, 1, 1, 1, 1],
-            [0, 1, 1, 1, 0, 0, 1],
-            [0, 1, 0, 1, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 1],
-            [0, 1, 1, 1, 0, 0, 1],
-            [0, 0, 0, 0, 0, 0, 1],
-            [0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 0, 1, 1, 1],
+        picross = p.Picross(p.PicrossModel.fromGrid('Carafe', [
+            [0, 0, 1],
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0],
         ]))
 
-        self.__picrossWidget = w.PicrossWidget(25, picross)
-        self.__layout.addWidget(self.__picrossWidget)
+        self.__label = wid.QLabel(f'{picross.name} ({picross.width}x{picross.height})')
+        self.__layout.addWidget(self.__label)
+
+        self.__pWid = w.PicrossWidget(25, picross)
+        self.__pWid.completed.connect(self.onPicrossCompleted)
+        self.__layout.addWidget(self.__pWid)
 
         central = wid.QWidget()
         central.setLayout(self.__layout)
         self.setCentralWidget(central)
+
+    def onPicrossCompleted(self) -> None:
+        self.__label.setText(self.__label.text() + ' : Completed !')
+        self.__pWid.setEnabled(False)
