@@ -62,11 +62,18 @@ class Cell(wid.QGraphicsView):
             )
         )
 
-    def drawRectangle(self, r: int, g: int, b: int, alpha: int = 255) -> wid.QGraphicsRectItem:
+    def drawRectangle(self,
+                      r: int, g: int, b: int,
+                      alpha: int = 255,
+                      withOffset: bool = True
+    ) -> wid.QGraphicsRectItem:
+        x = self.__fillOffset if withOffset else 0
+        y = self.__fillOffset if withOffset else 0
         w, h = self.width(), self.height()
+        w = w - 2 * self.__fillOffset if withOffset else w
+        h = h - 2 * self.__fillOffset if withOffset else h
         return self.__scene.addRect(
-            self.__fillOffset, self.__fillOffset,
-            w - 2 * self.__fillOffset, h - 2 * self.__fillOffset,
+            x, y, w, h,
             brush = gui.QBrush(gui.QColor(r, g, b, alpha), Qt.BrushStyle.SolidPattern)
         )
     
@@ -84,6 +91,8 @@ class Cell(wid.QGraphicsView):
         return item
     
     def clear(self, itemsToKeep: list[wid.QGraphicsItem] = ...) -> None:
+        if itemsToKeep is ...:
+            itemsToKeep = []
         for item in self.__scene.items():
             if item not in itemsToKeep:
                 self.__scene.removeItem(item)

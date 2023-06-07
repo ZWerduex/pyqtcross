@@ -36,6 +36,15 @@ class MainWindow(wid.QMainWindow):
             [1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0]
         ]))
 
+        # picross = p.Picross(p.PicrossModel.fromGrid('Test', [
+        #     # 5x5 picross
+        #     [1, 1, 0, 0, 0],
+        #     [0, 1, 0, 0, 0],
+        #     [1, 0, 0, 1, 1],
+        #     [0, 1, 0, 1, 0],
+        #     [0, 1, 0, 1, 0]
+        # ]))
+
         self.__label = wid.QLabel(f'{picross.name} ({picross.width}x{picross.height})')
         self.__layout.addWidget(self.__label)
 

@@ -45,12 +45,14 @@ class PicrossWidget(wid.QWidget):
                 self.__layout.addWidget(cell, i, maxLenRowHints + col)
 
         # Grid cells
+        self.__gridCells = []
         whiteCell = False
         for y in range(picross.height):
             for x in range(picross.width):
                 whiteCell = (x // 5) % 2 != (y // 5) % 2 # Thanks ChatGPT, I was stuck on this for 2 hours
                 cell = GridCell(cellSize, x, y, whiteCell)
                 cell.clicked.connect(self.onGridCellClicked)
+                self.__gridCells.append(cell)
                 self.__layout.addWidget(cell, y + maxLenColHints, x + maxLenRowHints)
 
         self.setLayout(self.__layout)
@@ -67,4 +69,12 @@ class PicrossWidget(wid.QWidget):
             self.__picross.clearCell(x, y)
             
         if self.__picross.isCompleted(self.__strictCheck):
+            self.showCompleted()
             self.completed.emit()
+
+    def showCompleted(self) -> None:
+        for cell in self.__gridCells:
+            cell.clear()
+            cell.setBackgroundHex('FFFFFF')
+            if cell.state == 1:
+                cell.drawRectangle(23, 27, 37, withOffset=False)
