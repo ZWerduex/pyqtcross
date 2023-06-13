@@ -12,5 +12,7 @@ class Strings():
 class Path():
 
     ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATA = os.path.join(ROOT, 'data')
 
     LOG = os.path.join(ROOT, f'{Strings.APPLICATION_NAME.lower()}.log')
+    MODELS = os.path.join(DATA, 'models.json')

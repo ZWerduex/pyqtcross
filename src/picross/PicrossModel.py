@@ -14,7 +14,7 @@ __all__ = ['PicrossModel']
 class PicrossModel():
 
     @staticmethod
-    def fromGrid(name: str, grid: list[list[int]]) -> PicrossModel:
+    def fromDictData(name: str, grid: list[list[int]]) -> PicrossModel:
         for row in grid:
             if len(row) != len(grid[0]):
                 raise ValueError('Grid must be a rectangle')
@@ -24,10 +24,21 @@ class PicrossModel():
         if not np.all(np.isin(p.__grid, [0, 1])):
             raise ValueError('Grid must only contain 0 and 1')
         return p
+    
+    def toDict(self) -> dict[str, object]:
+        return {
+            'name': self.name,
+            'grid': self.__grid.tolist()
+        }
 
     def __init__(self, name: str, width: int, height: int) -> None:
         self.__name = name
         self.__grid: np.ndarray = np.full((height, width), -1)
+
+    def __eq__(self, __value: object) -> bool:
+        if not isinstance(__value, PicrossModel):
+            return NotImplemented
+        return self.name == __value.name
 
     # Properties
 

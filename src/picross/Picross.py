@@ -36,12 +36,8 @@ class Picross():
         return copy.deepcopy(self.__colHints)
     
     @property
-    def userGrid(self) -> np.ndarray:
-        return self.__userModel.grid
-    
-    @property
-    def respGrid(self) -> np.ndarray:
-        return self.__modelResp.grid
+    def model(self) -> PicrossModel:
+        return self.__modelResp
 
     def __computeHints(self, grid: list[list[int]]) -> list[list[int]]:
         # Compute hints for each row
