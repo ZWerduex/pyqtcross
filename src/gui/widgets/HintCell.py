@@ -13,11 +13,17 @@ class HintCell(Cell):
         Cell.__init__(self, size)
 
         self.__crossed = False
+        self.__isEmpty = hint == ''
 
-        self.__text = self.drawText(hint, 23, 27, 37)
+        if not self.__isEmpty:
+            self.__text = self.drawText(hint, 23, 27, 37)
+
         self.setBackgroundHex('e0c48d')
 
     def mouseReleaseEvent(self, event: gui.QMouseEvent) -> None:
+        if self.__isEmpty:
+            return
+        
         self.clear([self.__text])
         if not self.__crossed:
             self.drawCross(23, 27, 37, 140)
