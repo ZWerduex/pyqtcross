@@ -21,7 +21,6 @@ class PicrossTitleWidget(wid.QWidget):
 
         layout.addWidget(self.__title)
         layout.addWidget(self.__subtitle)
-        layout.addStretch()
 
         self.setLayout(layout)
 

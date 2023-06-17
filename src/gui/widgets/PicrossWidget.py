@@ -1,8 +1,11 @@
 
+import PyQt6.QtGui as gui
 import PyQt6.QtCore as core
+from PyQt6.QtCore import Qt
 import PyQt6.QtWidgets as wid
 
 import picross as p
+import strings as s
 from .HintCell import HintCell
 from .GridCell import GridCell
 
@@ -28,7 +31,7 @@ class PicrossWidget(wid.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSizeConstraint(wid.QLayout.SizeConstraint.SetFixedSize)
 
-        # Generate picross grid
+        # Populate layout with cells
         # Row hints
         for row, hints in enumerate(picross.rowHints):
             # Add empty hints to the left to right align
@@ -60,6 +63,8 @@ class PicrossWidget(wid.QWidget):
 
         self.setLayout(layout)
 
+    def wheelEvent(self, event: gui.QWheelEvent) -> None:
+        return None
 
     def setStrictCheck(self, strictCheck: bool) -> None:
         self.__strictCheck = strictCheck
@@ -79,6 +84,6 @@ class PicrossWidget(wid.QWidget):
     def onCompleted(self) -> None:
         for cell in self.__gridCells:
             cell.clear()
-            cell.setBackgroundHex('FFFFFF')
+            cell.setBackgroundRGB(*s.Colors.GRID_CELL_WHITE_BACKGROUND)
             if cell.state == 1:
-                cell.drawRectangle(23, 27, 37, withOffset=False)
+                cell.drawRectangle(*s.Colors.CELL_DRAW_COLOR, withOffset = False)

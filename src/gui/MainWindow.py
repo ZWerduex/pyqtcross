@@ -20,14 +20,16 @@ class MainWindow(wid.QMainWindow):
 
         # TODO : Remove this
         manager = p.PicrossModelManager(s.Path.MODELS)
+        picross = p.Picross(p.PicrossModel('Blank', 30, 30))
         picross = p.Picross(manager.load('A nice break'))
 
-        self.__pWid = w.PicrossWidget(25, picross)
-        self.__pWid.completed.connect(self.onPicrossCompleted)
+
+        self.__grid = w.PicrossWidget(25, picross)
+        self.__grid.completed.connect(self.onPicrossCompleted)
 
         layout = wid.QVBoxLayout()
         layout.addWidget(w.PicrossTitleWidget(picross))
-        layout.addWidget(self.__pWid)
+        layout.addWidget(self.__grid)
 
         central = wid.QWidget()
         central.setLayout(layout)
@@ -35,4 +37,4 @@ class MainWindow(wid.QMainWindow):
 
     def onPicrossCompleted(self) -> None:
         print('Completed')
-        self.__pWid.setEnabled(False)
+        self.__grid.setEnabled(False)

@@ -17,7 +17,7 @@ class HintCell(Cell):
         self.__isEmpty = hint == ''
 
         if not self.__isEmpty:
-            self.__text = self.drawText(hint, *s.Colors.CELL_DRAW_COLOR)
+            self.__text = self.drawText(hint, *s.Colors.WHITE)
 
         self.setBackgroundRGB(*s.Colors.HINT_CELL_BACKGROUND)
 
@@ -27,5 +27,5 @@ class HintCell(Cell):
         
         self.clear([self.__text])
         if not self.__crossed:
-            self.drawCross(*s.Colors.CELL_DRAW_COLOR, alpha = 140)
+            self.drawCross(*s.Colors.WHITE, alpha = 140)
         self.__crossed = not self.__crossed
