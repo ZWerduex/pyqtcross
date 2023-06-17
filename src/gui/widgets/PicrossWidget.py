@@ -16,16 +16,19 @@ class PicrossWidget(wid.QWidget):
 
     def __init__(self, cellSize: int, picross: p.Picross) -> None:
         wid.QWidget.__init__(self)
+
         self.__picross = picross
-        self.__layout = wid.QGridLayout()
-        self.__layout.setSpacing(0)
-        self.__layout.setContentsMargins(0, 0, 0, 0)
-        self.__layout.setSizeConstraint(wid.QLayout.SizeConstraint.SetFixedSize)
         self.__strictCheck = False
 
         maxLenRowHints = max([len(hints) for hints in picross.rowHints])
         maxLenColHints = max([len(hints) for hints in picross.colHints])
 
+        layout = wid.QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSizeConstraint(wid.QLayout.SizeConstraint.SetFixedSize)
+
+        # Generate picross grid
         # Row hints
         for row, hints in enumerate(picross.rowHints):
             # Add empty hints to the left to right align
@@ -33,7 +36,7 @@ class PicrossWidget(wid.QWidget):
                 hints.insert(0, -1)
             for i, hint in enumerate(hints):
                 cell = HintCell(cellSize, str(hint) if hint != -1 else '')
-                self.__layout.addWidget(cell, maxLenColHints + row, i)
+                layout.addWidget(cell, maxLenColHints + row, i)
 
         # Col hints
         for col, hints in enumerate(picross.colHints):
@@ -42,7 +45,7 @@ class PicrossWidget(wid.QWidget):
                 hints.insert(0, -1)
             for i, hint in enumerate(hints):
                 cell = HintCell(cellSize, str(hint) if hint != -1 else '')
-                self.__layout.addWidget(cell, i, maxLenRowHints + col)
+                layout.addWidget(cell, i, maxLenRowHints + col)
 
         # Grid cells
         self.__gridCells = []
@@ -53,9 +56,10 @@ class PicrossWidget(wid.QWidget):
                 cell = GridCell(cellSize, x, y, whiteCell)
                 cell.clicked.connect(self.onGridCellClicked)
                 self.__gridCells.append(cell)
-                self.__layout.addWidget(cell, y + maxLenColHints, x + maxLenRowHints)
+                layout.addWidget(cell, y + maxLenColHints, x + maxLenRowHints)
 
-        self.setLayout(self.__layout)
+        self.setLayout(layout)
+
 
     def setStrictCheck(self, strictCheck: bool) -> None:
         self.__strictCheck = strictCheck
@@ -69,10 +73,10 @@ class PicrossWidget(wid.QWidget):
             self.__picross.clearCell(x, y)
             
         if self.__picross.isCompleted(self.__strictCheck):
-            self.showCompleted()
+            self.onCompleted()
             self.completed.emit()
 
-    def showCompleted(self) -> None:
+    def onCompleted(self) -> None:
         for cell in self.__gridCells:
             cell.clear()
             cell.setBackgroundHex('FFFFFF')

@@ -5,10 +5,12 @@ import PyQt6.QtCore as core
 from PyQt6.QtCore import Qt
 import PyQt6.QtGui as gui
 
+import strings as s
 from .Cell import Cell
 
 
 __all__ = ['GridCell']
+
 
 class GridCell(Cell):
 
@@ -21,9 +23,13 @@ class GridCell(Cell):
         self.__y = y
 
         self.__state = -1
-        self.__border = self.drawBorder(23, 27, 37)
+        self.__border = self.drawBorder(*s.Colors.CELL_DRAW_COLOR)
 
-        self.setBackgroundHex('dddddd' if colored else 'FFFFFF')
+        if colored:
+            color = s.Colors.GRID_CELL_GREY_BACKGROUND
+        else:
+            color = s.Colors.GRID_CELL_WHITE_BACKGROUND
+        self.setBackgroundRGB(*color)
 
     @property
     def state(self) -> int:
@@ -37,12 +43,12 @@ class GridCell(Cell):
                 self.__state = -1
             else:
                 self.__state = 1
-                self.drawRectangle(23, 27, 37)
+                self.drawRectangle(*s.Colors.CELL_DRAW_COLOR)
         elif event.button() == Qt.MouseButton.RightButton:
             if self.__state == 0:
                 self.__state = -1
             else:
                 self.__state = 0
-                self.drawCross(23, 27, 37)
+                self.drawCross(*s.Colors.CELL_DRAW_COLOR)
 
         self.clicked.emit(self.__x, self.__y, self.__state)

@@ -1,6 +1,7 @@
 
 import PyQt6.QtGui as gui
 
+import strings as s
 from .Cell import Cell
 
 
@@ -16,9 +17,9 @@ class HintCell(Cell):
         self.__isEmpty = hint == ''
 
         if not self.__isEmpty:
-            self.__text = self.drawText(hint, 23, 27, 37)
+            self.__text = self.drawText(hint, *s.Colors.CELL_DRAW_COLOR)
 
-        self.setBackgroundHex('e0c48d')
+        self.setBackgroundRGB(*s.Colors.HINT_CELL_BACKGROUND)
 
     def mouseReleaseEvent(self, event: gui.QMouseEvent) -> None:
         if self.__isEmpty:
@@ -26,5 +27,5 @@ class HintCell(Cell):
         
         self.clear([self.__text])
         if not self.__crossed:
-            self.drawCross(23, 27, 37, 140)
+            self.drawCross(*s.Colors.CELL_DRAW_COLOR, alpha = 140)
         self.__crossed = not self.__crossed

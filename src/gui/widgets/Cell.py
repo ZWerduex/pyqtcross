@@ -37,9 +37,6 @@ class Cell(wid.QGraphicsView):
     def setBackgroundRGB(self, r: int, g: int, b: int) -> None:
         self.setStyleSheet(f'background-color: rgb({r}, {g}, {b});')
     
-    def setBackgroundHex(self, hex: str) -> None:
-        self.setStyleSheet(f'background-color: #{hex};')
-    
     def drawBorder(self, r: int, g: int, b: int, alpha: int = 255) -> wid.QGraphicsRectItem:
         w, h = self.width(), self.height()
         return self.__scene.addRect(
