@@ -13,7 +13,7 @@ git clone https://github.com/ZWerduex/pyqtcross.git
 cd pyqtcross
 ```
 
-I recommend using a virtual environment, but it's not mandatory. I will ensure that you know how to do it with pipenv, but you can use any other virtual environment manager. Once you're done with that part, you can install the requirements :
+I recommend using a virtual environment, but it's not mandatory. I will ensure that you know how to do it with `venv`, but you can use any other virtual environment manager. Once you're done with that part, you can install the requirements :
 
 ```bash
 pip install -r requirements.txt
@@ -55,7 +55,7 @@ I have a lot of ideas for this project, but I don't know if I will have the time
 
 I don't know if anyone will ever contribute to this project, but if you want to, you can. I will be very happy to see that someone is interested in my project. If you want to contribute, please follow these steps :
 
-1. Contact me on Discord **Z-WX#3610**
+1. Contact me on Discord : **zwx**
 2. ???
 3. Repeat
 
