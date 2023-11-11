@@ -14,7 +14,9 @@ __all__ = ['PicrossModel']
 class PicrossModel():
 
     @staticmethod
-    def fromDictData(name: str, grid: list[list[int]]) -> PicrossModel:
+    def fromDictData(data: dict) -> PicrossModel:
+        name = data['name']
+        grid = data['grid']
         for row in grid:
             if len(row) != len(grid[0]):
                 raise ValueError('Grid must be a rectangle')
@@ -37,7 +39,7 @@ class PicrossModel():
 
     def __eq__(self, __value: object) -> bool:
         if not isinstance(__value, PicrossModel):
-            return NotImplemented
+            return False
         return self.name == __value.name
 
     # Properties

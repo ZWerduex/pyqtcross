@@ -28,7 +28,7 @@ class PicrossModelManager:
         with open(self.__path, 'r', encoding = 'utf-8') as f:
             models = json.load(f)
 
-        return [PicrossModel.fromDictData(m['name'], m['grid']) for m in models]
+        return [PicrossModel.fromDictData(m) for m in models]
     
 
     def load(self, name: str) -> PicrossModel:
@@ -40,7 +40,7 @@ class PicrossModelManager:
         raise ValueError(f'No model named "{name}" found')
         
 
-    def save(self, model: PicrossModel, oldName: str = ...) -> None:
+    def save(self, model: PicrossModel, oldName: str = ...) -> None: # type: ignore
         models = self.loadAll()
 
         if oldName is ...:

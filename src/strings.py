@@ -43,13 +43,22 @@ class Styles():
 
 class Fonts():
 
-    TITLE = gui.QFont('Arial', 24)
-    TITLE.setBold(True)
+    @staticmethod
+    def bold(size: int) -> gui.QFont:
+        font = gui.QFont('Arial', size)
+        font.setBold(True)
+        return font
+    
+    @staticmethod
+    def normal(size: int) -> gui.QFont:
+        font = gui.QFont('Arial', size)
+        font.setBold(False)
+        return font
 
-    SUBTITLE = gui.QFont('Arial', 14)
-    SUBTITLE.setBold(False)
+    TITLE = bold(24)
 
-    TEXT = gui.QFont('Arial', 12)
-    TEXT.setBold(False)
+    SUBTITLE = normal(16)
+
+    TEXT = normal(12)
 
 
